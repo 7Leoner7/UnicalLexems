@@ -10,6 +10,7 @@ namespace ConsoleApp1
         internal string ParseProperty0 = "<*>,&*;";
         internal string ParseProperty1 = "&rsquo;";
         public Action<string> Error;
+        public bool HasError;
 
         static void ErrorAct(string err)
         {
@@ -18,6 +19,7 @@ namespace ConsoleApp1
 
         public HtmlParser(string direct)
         {
+            HasError = false;
             this.all = '*';
             this.direct = direct;
             FileInfo fi = new FileInfo(direct);
@@ -29,12 +31,14 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
 
         public HtmlParser(string direct, char all)
         {
+            HasError = false;
             this.all = all;
             this.direct = direct;
             FileInfo fi = new FileInfo(direct);
@@ -45,6 +49,7 @@ namespace ConsoleApp1
                 if (fi.Extension != extens) throw new ArgumentException("Данный файл не является html-страницой");
             }catch(Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
@@ -63,6 +68,7 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
             return Parse(str.Replace(ParseProperty1, ""), ParseProperty0, " ");
@@ -91,6 +97,7 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }

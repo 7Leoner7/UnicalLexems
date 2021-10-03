@@ -41,12 +41,14 @@ namespace ConsoleApp1
 ");
                         var dir = Console.ReadLine();
                         HtmlParser parser = new HtmlParser(dir);
+                        if (parser.HasError) { Console.WriteLine("Действие успешно провалено! Введите номер следующего действия!"); continue; }
                         Console.WriteLine(@"Укажите куда можно сохранить файл с уникальными словами:
 ");
                         dir = Console.ReadLine();
                         parser.ParseHtmlInFile(dir);
 
                         UnixLexem lexem = new UnixLexem(dir);
+                        if (lexem.HasError) { Console.WriteLine("Действие успешно провалено! Введите номер следующего действия!"); continue; }
                         FileInfo fi = new FileInfo(dir);
                         if (!fi.Exists) fi.Create();
                         lexem.CreateFileOfListOfLexemAndRank(fi.Directory + "\\" + fi.Name + "UL" + fi.Extension);
@@ -55,10 +57,10 @@ namespace ConsoleApp1
                         new FileInfo(dir).Delete();
                         Console.WriteLine("Действие выполнено успешно!");
                         Console.WriteLine("Вы хотите добавить в GoogleDB(Y - да, N - нет)?");
-                        if (Console.ReadLine() != "N") continue;
+                        if (Console.ReadLine() != "N") { Console.WriteLine("Действие выполнено успешно! Введите номер следующего действия!"); continue; }
                         Console.WriteLine("Введите сначало ссылку на GoogleDB, потом AuthSecret");
                         lexem.ExportLexemsDB(Console.ReadLine(), Console.ReadLine(), fi.Directory + "\\" + fi.Name + "UL" + fi.Extension, fi.Name);
-                        Console.WriteLine("Действие выполнено успешно!");
+                        Console.WriteLine("Действие выполнено успешно! Введите номер следующего действия!");
                     }
                     else
                     {
@@ -68,12 +70,13 @@ namespace ConsoleApp1
 ");
                             var dir = Console.ReadLine();
                             HtmlParser parser = new HtmlParser(dir);
+                            if (parser.HasError) { Console.WriteLine("Действие успешно провалено! Введите номер следующего действия!"); continue; }
                             Console.WriteLine(@"Укажите куда можно сохранить файл с уникальными словами:
 ");
                             dir = Console.ReadLine();
                             parser.ParseHtmlInFile(dir);
 
-                            Console.WriteLine("Действие выполнено успешно!");
+                            Console.WriteLine("Действие выполнено успешно! Введите номер следующего действия!");
                         }
                         else
                         {
@@ -81,8 +84,9 @@ namespace ConsoleApp1
                             {
                                 Console.WriteLine("Введите сначало ссылку на GoogleDB, потом AuthSecret, потом полный путь к файлу сохранения и имя файла");
                                 UnixLexem lexem = new UnixLexem();
+                                if (lexem.HasError) { Console.WriteLine("Действие успешно провалено! Введите номер следующего действия!"); continue; }
                                 lexem.ImportLexemsDB(Console.ReadLine(), Console.ReadLine(), Console.ReadLine(), Console.ReadLine());
-                                Console.WriteLine("Действие выполнено успешно!");
+                                Console.WriteLine("Действие выполнено успешно! Введите номер следующего действия?");
                             }
                             else
                             {

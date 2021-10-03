@@ -13,6 +13,7 @@ namespace ConsoleApp1
         public string SaveDirection { get; set; }
         public Action<string> VisualizeUnicalLexem;
         public Action<string> Error;
+        public bool HasError;
 
         static void ErrorAct(string err)
         {
@@ -58,6 +59,7 @@ namespace ConsoleApp1
             }
             catch(Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
             return false;
@@ -101,6 +103,7 @@ namespace ConsoleApp1
             }
             catch(Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
             return k;
@@ -181,6 +184,7 @@ namespace ConsoleApp1
             }
             catch(Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
@@ -225,6 +229,7 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
@@ -252,6 +257,7 @@ namespace ConsoleApp1
             }
             }catch(Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
@@ -276,14 +282,16 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
+                HasError = true;
                 Error(e.Message);
             }
         }
 
-        public UnixLexem() { }
+        public UnixLexem() { HasError = false; }
 
         public UnixLexem(string direction)
         {
+            HasError = false;
             this.direction = direction;
             this.Error = (string err) => ErrorAct(err);
             FileInfo fi = new FileInfo(direction);
@@ -292,6 +300,7 @@ namespace ConsoleApp1
 
         public UnixLexem(string direction, string SaveDirection)
         {
+            HasError = false;
             this.direction = direction;
             this.SaveDirection = SaveDirection;
             this.Error = (string err) => ErrorAct(err);
